@@ -1,51 +1,30 @@
 ﻿<canvas id="myCanvas" width="300" height="600" style="border:1px solid #000000;margin-left: auto;margin-right: auto;margin-top: auto;margin-bottom: auto;display: block;" />
 <script>
-    var ctx = document.getElementById("myCanvas").getContext("2d");
-    var s = [[0x00F0, 0x4444], [0x6600], [0x4640, 0x4E00, 0x4C40, 0x0E40], [0x0E80, 0x6220, 0x2E00, 0x88C0], [0x0E20, 0x44C0, 0x8E00, 0xC880], [0x06C0, 0x8C40], [0x0C60, 0x4C80]],
-        a = [0xFFFF, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xE007, 0xFFFF, 0xFFFF];
-    function to10(bin) { return parseInt(bin.split('').join(''), 2); }
-    function pad(str, ne, nt, c) { return Array(nt - str.length - ne + 1).join(c || '0') + str + (ne > 0 ? Array(nt - ne - str.length + 1).join(c || '0') : ''); }
-    function move(as, i, x, y) {
-        var is = [prep(0), prep(1), prep(2), prep(3)];
-        function prep(j) { return [as[y + j], to10(pad(pad(i.toString(2), 0, 16).substring(j * 4, (j + 1) * 4), x + 3, 16))]; }
-        return !(is[0][0] & is[0][1]) && (as[y] = (is[0][0] | is[0][1])) && !(is[1][0] & is[1][1]) && (as[y + 1] = (is[1][0] | is[1][1]))
-            && !(is[2][0] & is[2][1]) && (as[y + 2] = (is[2][0] | is[2][1])) && !(is[3][0] & is[3][1]) && (as[y + 3] = (is[3][0] | is[3][1])) && as;
-    }
-    var x = 3, y = 0, i, si, as = a, at = a, l = 0, ii, p = 1, t = 15;
-    function update(key) {
-        i = i || s[Math.floor(si = (Math.random() * s.length))].slice(0), l = ++l % t, key = key && (key.key || key.keyIdentifier);
-        var xx = x, yy = y, ai = i.slice(0);
-        if (!l || key == "Down") yy++;
-        else if (key == "Left") xx--;
-        else if (key == "Right") xx++;
-        else if (key == "Up") ai.push(ai.shift());
-        if (!(at = move(a.slice(0), ai[0], xx, yy))) {
-            if (!l || key == "Down") {
-                if (y < 1) {
-                    clearInterval(ii);
-                    window.removeEventListener("keydown", update);
-                    alert('game over, score: ' + p);
-                }
-                for (var k = 1, e = 0; k < 21; k++)
-                    if (as[k] == 65535) {
-                        as.splice(k, ++e / e);
-                        as.splice(1, 0, 0xE007);
-                    }
-                i = y = 0, x = 3, a = as, p += Math.pow(2, e);
-            }
-        } else {
-            y = yy, x = xx, i = ai;
-            draw(as = at);
+var c = document.getElementById("myCanvas").getContext("2d"),
+    s = [[0x00F0, 0x4444], [0x6600], [0x4640, 0x4E00, 0x4C40, 0x0E40], [0x0E80, 0x6220, 0x2E00, 0x88C0], [0x0E20, 0x44C0, 0x8E00, 0xC880], [0x06C0, 0x8C40], [0x0C60, 0x4C80]],
+    g = 0xE007, h = 0xFFFF, a = [g, g, g, g, g, g, g, g, g, g, g, g, g, g, g, g, g, g, g, g, g, h, h];
+function pad(str, ne, nt) { return Array(nt - str.length - ne + 1).join('0') + str + (ne > 0 ? Array(nt - ne - str.length + 1).join('0') : ''); }
+function move(m, i, x, y) {
+    var k = [prep(0), prep(1), prep(2), prep(3)];
+    function prep(j) { return [m[y + j], parseInt(pad(pad(i.toString(2), 0, 16).substring(j * 4, (j + 1) * 4), x + 3, 16), 2)]; }
+    return !(k[0][0] & k[0][1]) && (m[y] = (k[0][0] | k[0][1])) && !(k[1][0] & k[1][1]) && (m[y + 1] = (k[1][0] | k[1][1]))
+        && !(k[2][0] & k[2][1]) && (m[y + 2] = (k[2][0] | k[2][1])) && !(k[3][0] & k[3][1]) && (m[y + 3] = (k[3][0] | k[3][1])) && m;
+}
+var x = 3, y = l = 0, i, u, n = o = a, p = 1, t = 15, q;
+function update(k) {
+    i = i || s[Math.floor(u = (Math.random() * s.length))].slice(0), l = ++l % t, k = k && (k.k || k.keyCode);
+    var xx = x, yy = y, ii = i.slice(0), q = ((!l || k == 40) && yy++) || ((k == 37) && xx--) || ((k == 39) && xx++) || ((k == 38) && ii.push(ii.shift()));
+    if (!(o = move(a.slice(0), ii[0], xx, yy))) {
+        if (!l || k == 39) {
+            if (y < 1) window.removeEventListener(clearInterval(q) || alert('game over, score: ' + p) || "keydown", update);
+            for (var v = 1, e = 0; v < 21; v++) n[v] == 65535 && n.splice(v, ++e / e) && n.splice(1, 0, 0xE007);
+            i = y = 0, x = 3, a = n, p += Math.pow(2, e);
         }
-    }
-    function draw(as) {
-        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        for (var i = 1, w = ctx.canvas.width / 10, h = ctx.canvas.height / 20; i < 21; i++)
-            for (var j = 0, r = as[i].toString(2).substring(3, 13) ; j < 10; j++) {
-                ctx.fillStyle = r[j] == "0" ? "rgb(255,255,255)" : "rgb(0, 0, 0)";
-                ctx.fillRect(w * j, h * (i - 1), w, h);
-            }
-    }
-    window.addEventListener("keydown", update);
-    ii = setInterval(update, 30);
+    } else (y = yy, x = xx, i = ii) && draw(n = o);
+}
+function draw(n) {
+    for (var i = 1, v = c.fillRect(0, 0, c.canvas.width, c.canvas.height), w = c.canvas.width / 10, h = c.canvas.height / 20; i < 21; i++)
+        for (var j = 0, r = n[i].toString(2).substring(3, 13) ; j < 10; j++) c.fillRect((c.fillStyle = r[j] == "0" ? "rgb(255,255,255)" : "rgb(0, 0, 0)") && w * j, h * (i - 1), w, h);
+}
+q = setInterval(window.addEventListener("keydown", update) || update, 30);
 </script>
