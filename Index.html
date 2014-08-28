@@ -12,10 +12,10 @@ function move(m, i, x, y) {
 }
 var x = 3, y = l = 0, i, u, n = o = a, p = 1, t = 15, q;
 function update(k) {
-    i = i || s[Math.floor(u = (Math.random() * s.length))].slice(0), l = ++l % t, k = k && (k.k || k.keyCode);
-    var xx = x, yy = y, ii = i.slice(0), q = ((!l || k == 40) && yy++) || ((k == 37) && xx--) || ((k == 39) && xx++) || ((k == 38) && ii.push(ii.shift()));
+    i = i || s[Math.floor(u = (Math.random() * s.length))].slice(0), l = ++l % t, k = k && k.keyCode;
+    var xx = x, yy = y, ii = i.slice(0), z = ((!l || k == 40) && yy++) || ((k == 37) && xx--) || ((k == 39) && xx++) || ((k == 38) && ii.push(ii.shift()));
     if (!(o = move(a.slice(0), ii[0], xx, yy))) {
-        if (!l || k == 39) {
+        if (!l || k == 40) {
             if (y < 1) window.removeEventListener(clearInterval(q) || alert('game over, score: ' + p) || "keydown", update);
             for (var v = 1, e = 0; v < 21; v++) n[v] == 65535 && n.splice(v, ++e / e) && n.splice(1, 0, 0xE007);
             i = y = 0, x = 3, a = n, p += Math.pow(2, e);
