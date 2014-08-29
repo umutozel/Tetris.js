@@ -10,9 +10,9 @@ function move(tempScene, shape, x, y) {
     return !(check[0][0] & check[0][1]) && (tempScene[y] =     (check[0][0] | check[0][1])) && !(check[1][0] & check[1][1]) && (tempScene[y + 1] = (check[1][0] | check[1][1]))
         && !(check[2][0] & check[2][1]) && (tempScene[y + 2] = (check[2][0] | check[2][1])) && !(check[3][0] & check[3][1]) && (tempScene[y + 3] = (check[3][0] | check[3][1])) && tempScene;
 }
-var x = 3, y = renderLoop = 0, shape, activeScene = tempScene = scene, score = 1, fps = 15, intervalId;
+var x = 3, y = renderLoop = 0, shape, activeScene = tempScene = scene, score = 1, fps = 215, levelIndicator = 50, intervalId, q;
 function update(key) {
-    shape = shape || shapes[Math.floor(Math.random() * shapes.length)].slice(0), renderLoop = ++renderLoop % fps, key = key && key.keyCode;
+    shape = shape || shapes[Math.floor(Math.random() * shapes.length)].slice(0), renderLoop = ++renderLoop % ((q = fps - Math.floor(score / levelIndicator)) && q < 15 ? 15 : q), key = key && key.keyCode;
     var tempX = x, tempY = y, tempShape = shape.slice(0), temp = ((!renderLoop || key == 40) && tempY++) || ((key == 37) && tempX--) || ((key == 39) && tempX++) || ((key == 38) && tempShape.push(tempShape.shift()));
     if (!(tempScene = move(scene.slice(0), tempShape[0], tempX, tempY))) {
         if (!renderLoop || key == 40) {
@@ -24,7 +24,7 @@ function update(key) {
 }
 function draw(drawScene) {
     for (var i = 1, temp = context.fillRect(0, 0, context.canvas.width, context.canvas.height), width = context.canvas.width / 10, height = context.canvas.height / 20; i < 21; i++)
-        for (var j = 0, row = drawScene[i].toString(2).substring(3, 13) ; j < 10; j++) context.fillRect((context.fillStyle = row[j] == "0" ? "rgb(255,255,255)" : "rgb(0, 0, 0)") && width * j, height * (i - 1), width, height);
+        for (var j = 0, row = drawScene[i].toString(2).substring(3, 13); j < 10; j++) context.fillRect((context.fillStyle = row[j] == "0" ? "#FFFFFF" : "#000000") && width * j, height * (i - 1), width, height);
 }
-intervalId = setInterval(window.addEventListener("keydown", update) || update, 30);
+intervalId = setInterval(window.addEventListener("keydown", update) || update, 3);
 </script>
