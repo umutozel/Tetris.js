@@ -2,7 +2,7 @@
 <script>
 var context = document.getElementById("myCanvas").getContext("2d"), canvas = context.canvas,
     shapes = [[3840, 17476], [26112], [17984, 19968, 19520, 3648], [3712, 25120, 11776, 35008], [3616, 17600, 36352, 51328], [1728, 35904], [3168, 19584]],
-    e = '0000000000', scene = [e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e], canvasWidth = canvas.width, canvasHeight = canvas.height, width = canvasWidth / 10, height = canvasHeight / 20,
+    e = '0000000000', scene = [e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e], canvasWidth = canvas.width, width = canvasWidth / 10, height = canvas.height / 20,
     x = 3, y = -1, renderLoop = 0, shape, shapeIndex, activeScene = scene, score = 0, frameDelay = 215, levelIndicator = 5, intervalId, q;
 function move(tempScene, tempShape, tempX, tempY) {
     var shapeLine = (e + '000000' + tempShape.toString(2)).slice(-16);
