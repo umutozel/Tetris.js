@@ -3,12 +3,12 @@
 var context = document.getElementById("myCanvas").getContext("2d"), canvas = context.canvas,
     shapes = [[3840, 17476], [26112], [17984, 19968, 19520, 3648], [3712, 25120, 11776, 35008], [3616, 17600, 36352, 51328], [1728, 35904], [3168, 19584]],
     e = '0000000000', scene = [e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e, e], canvasWidth = canvas.width, width = canvasWidth / 10, height = canvas.height / 20,
-    x = 3, y = -1, renderLoop = 0, shape, shapeIndex, activeScene = scene, score = 0, frameDelay = 215, levelIndicator = 5, intervalId, q;
+    x = 3, y = -1, renderLoop = 0, shape, shapeIndex, activeScene = scene, score = 0, frameDelay = 165, levelIndicator = 5, intervalId, q;
 function move(tempScene, tempShape, tempX, tempY) {
     var shapeLine = (e + '000000' + tempShape.toString(2)).slice(-16);
     function check(row) {
-        for (var i = 0, sceneLine = (tempScene[tempY + row] || '').split('') ; i < 4; i++)
-            shapeLine.substring(row * 4, (row + 1) * 4)[i] != 0 && (sceneLine[tempX + i] == 0 ? sceneLine[tempX + i] = shapeIndex + 1 : tempScene = (i = 4) - 4);
+        for (var i = 0, sceneLine = (tempScene[tempY + row] || '').split(''); i < 4; i++)
+            shapeLine.substring(row * 4, row * 4 + 4)[i] != 0 && (sceneLine[tempX + i] == 0 ? sceneLine[tempX + i] = shapeIndex + 1 : tempScene = (i = 4) - 4);
         return (tempScene[tempY + row] = sceneLine.join('')) || tempScene;
     }
     return check(0) && check(1) && check(2) && check(3) && tempScene;
@@ -19,7 +19,7 @@ function update(key) {
     if (!(tempScene = move(scene.slice(0), tempShape[0], tempX, tempY))) {
         if (!renderLoop || key == 40) {
             if (y < 1) window.removeEventListener(clearInterval(intervalId) || alert('game over, score: ' + score) || "keydown", update);
-            for (var i = 1, blockCount = 0; i < 21; i++) activeScene[i].indexOf(0) < 0 && activeScene.splice(i, ++blockCount / blockCount) && activeScene.splice(1, 0, e);
+            for (var i = 1, blockCount = 0; i < 21; i++) activeScene[i].indexOf(0) < 0 && activeScene.splice(i, 1) && activeScene.splice(1, 0, e) && ++blockCount;
             shape = 0, y = -1, x = 3, scene = activeScene, score += Math.pow(2, blockCount);
         }
     } else (y = tempY, x = tempX, shape = tempShape) && draw(activeScene = tempScene);
@@ -27,7 +27,7 @@ function update(key) {
 function draw(drawScene) {
     for (var i = 1, temp = canvas.width = canvasWidth; i < 21; i++)
         for (var j = 0; j < 10; j++)
-            (q = drawScene[i][j] * 3500000) && (context.fillRect((context.fillStyle = '#' + ('000000' + q.toString(16)).slice(-6)) && width * j, height * (i - 1), width, height)
+            (q = drawScene[i][j] * 35E5) && (context.fillRect((context.fillStyle = '#' + ('000000' + q.toString(16)).slice(-6)) && width * j, height * (i - 1), width, height)
                 || context.rect(width * j, height * (i - 1), width, height) || context.stroke());
 }
 intervalId = setInterval(window.addEventListener("keydown", update) || update, 3);
